@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "name": "graph-security-test",
+  "builds": [
+    { "src": "/api/endpoints/**/*.js", "use": "@now/node" },
+    { "src": "/site/package.json", "use": "@now/next" }
+  ],
+  "routes": [
+	{ "src": "/login", "dest": "/api/endpoints/login" },
+	{ "src": "/token", "dest": "/api/endpoints/token" },
+	{ "src": "/logout", "dest": "/api/endpoints/logout" },
+    { "src": "/api/(.*)", "dest": "/api/endpoints/$1" },
+    { "src": "/(.*)", "dest": "/site/$1" }
+  ],
+  "env": {
+    "GRAPH_CLIENT_ID": "@graph-client-id",
+    "GRAPH_CLIENT_SECRET": "@graph-secret-test",
+    "GRAPH_COOKIE_IV": "CHANGE_ME!!!",
+    "GRAPH_COOKIE_KEY": "@graph-cookie-key",
+    "GRAPH_LOGIN_REDIRECT_URL": "https://graph.yourdomain.com/token",
+    "GRAPH_LOGOUT_REDIRECT_URL": "https://graph.yourdomain.com/",
+    "GRAPH_METADATA_URL": "@graph-metadata"
+  }
+}

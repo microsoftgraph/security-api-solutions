@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "now-build": "next build",
+    "dev": "next dev"
+  },
+  "author": "Olli Vanhoja",
+  "license": "MIT",
+  "dependencies": {
+    "async-retry": "1.2.3",
+    "content-type": "1.0.4",
+    "isomorphic-unfetch": "3.0.0",
+    "next": "8.0.0-canary.7",
+    "next-cookies": "1.0.4",
+    "react": "16.7.0",
+    "react-dom": "16.7.0"
+  }
+}

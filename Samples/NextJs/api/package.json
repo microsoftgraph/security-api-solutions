@@ -1,0 +1,46 @@
+{
+  "name": "express-app1",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node app.js",
+    "lint": "eslint ."
+  },
+  "description": "ExpressApp1",
+  "author": {
+    "name": "Olli Vanhoja"
+  },
+  "dependencies": {
+    "@microsoft/microsoft-graph-client": "1.0.0",
+    "cookie-parser": "1.4.0",
+    "cookies": "0.7.3",
+    "express": "4.14.0",
+    "passport": "0.4.0",
+    "passport-azure-ad": "3.0.12"
+  },
+  "devDependencies": {
+    "eslint": "5.12.1"
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": 8,
+      "sourceType": "script"
+    },
+    "extends": [
+      "eslint:recommended"
+    ],
+    "env": {
+      "es6": true,
+      "node": true
+    },
+    "rules": {
+      "func-names": [
+        "error",
+        "as-needed"
+      ],
+      "no-console": "off",
+      "no-shadow": "error",
+      "no-extra-semi": 0
+    }
+  }
+}
