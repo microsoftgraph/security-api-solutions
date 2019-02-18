@@ -6,7 +6,7 @@ This example shows how to create a serverless [Next.js](https://nextjs.org) app
 that authenticates with a Microsoft Azure Active Directory
 [(AAD)](https://azure.microsoft.com/en-us/services/active-directory/) tenant and
 retrieves security alerts using the
-Microsoft [Graph Security](https://developer.microsoft.com/en-us/graph) API.
+Microsoft [Graph Security](https://aka.ms/graphsecuritydocs) API.
 The example is built around the
 [ZEIT Now](https://zeit.co/now) deployment model, as it's utilizing Now
 builders and deployment routes, but it is portable to any serverless
@@ -38,8 +38,8 @@ The `now.json` file defines the following environment variables:
 | `GRAPH_COOKIE_IV`             | Cookie encryption IV for `passport-azure-ad`.  Always 12 chars.               |           | `1234abcdef90`                                    |
 | `GRAPH_COOKIE_KEY`            | Cookie encryption key for `passport-azure-ad`. Always 32 chars.               | X         | `@graph-cookie-key`                               |
 | `GRAPH_LOGIN_REDIRECT_URL`    | An endpoint that continues the authentication after a token has been issued.  |
-                                  Must be an FQDN + `/token` in this example.                                   |           | `https://grahp.yourdomain.com/token`              |
-| `GRAPH_LOGOUT_REDIRECT_URL`   | An URL where the user is redirected after logout.                             |           | `https://grahp.yourdomain.com/`                   |
+                                  Must be an FQDN + `/token` in this example.                                   |           | `https://graph.yourdomain.com/token`              |
+| `GRAPH_LOGOUT_REDIRECT_URL`   | An URL where the user is redirected after logout.                             |           | `https://graph.yourdomain.com/`                   |
 | `GRAPH_METADATA_URL`          | The metadata endpoint of the AAD tenant. The URL is not very sensitive,
                                   the example uses a secret called `@graph-metadata` but it's not necessary to
                                   use a secret for this URL.                                                    |           |
@@ -57,7 +57,7 @@ for more information about using secrets in ZEIT Now.
 
 At this point, you should have configured the AAD tenant and chose a domain that
 you want to use for the example service. In this example, we are going to use
-`grahp.yourdomain.com`. This needs to be configured for the application in the
+`graph.yourdomain.com`. This needs to be configured for the application in the
 AAD tenant as well as in the Now secrets defined earlier.
 
 Once you have configured the AAD tenant and have all the secrets created you can
@@ -82,7 +82,7 @@ now alias
 ```
 
 and the deployment will be aliased to the domain you chose earlier. The
-deployment will be now available at `https://grahp.yourdomain.com/`.
+deployment will be now available at `https://graph.yourdomain.com/`.
 
 Note that the actual deployment URL returned by `now` is unusable in this
 example and you will always need to alias, otherwise the authentication will
