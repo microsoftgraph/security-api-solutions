@@ -20,8 +20,8 @@ app.get('/token', (req, res, next) => {
             name: req.user.profile.displayName
         };
 
-        res.cookie('token', req.user.accessToken, { maxAge, httpOnly: true, secure: true });
-        res.cookie('user', JSON.stringify(user), { maxAge, httpOnly: false, secure: true });
+        res.cookie('token', req.user.accessToken, { maxAge, httpOnly: true, secure: true, sameSite: 'strict' });
+        res.cookie('user', JSON.stringify(user), { maxAge, httpOnly: false, secure: true, sameSite: 'strict' });
 
         const scopesReturned = req.user.params['scope'].split(' ');
 
