@@ -8,7 +8,7 @@ from constants import *
 
 
 class RequestManager:
-    def __init__(self):
+    def __enter__(self):
         self.del_count = 0
         try:
             self.existing_indicators_hash_fd = open(EXISTING_INDICATORS_HASH_FILE_NAME, 'r+')
@@ -38,6 +38,7 @@ class RequestManager:
         self.indicators_to_be_sent_size = 0
         if not os.path.exists(LOG_DIRECTORY_NAME):
             os.makedirs(LOG_DIRECTORY_NAME)
+        return self
 
     @staticmethod
     def _get_expiration_date_from_config():
@@ -95,7 +96,7 @@ class RequestManager:
     def _get_datetime_now():
         return str(datetime.datetime.now()).replace(' ', '_')
 
-    def conclude(self):
+    def __exit__(self, exc_type, exc_val, exc_tb):
         self._post_to_graph()
 
         self._del_indicators_no_longer_exist()

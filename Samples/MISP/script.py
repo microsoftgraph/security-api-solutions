@@ -88,10 +88,9 @@ def main():
         parsed_events.append(parsed_event)
     del events
 
-    request_manager = RequestManager()
-    for request_body in _graph_post_request_body_generator(parsed_events):
-        request_manager.handle_indicator(request_body)
-    request_manager.conclude()
+    with RequestManager() as request_manager:
+        for request_body in _graph_post_request_body_generator(parsed_events):
+            request_manager.handle_indicator(request_body)
 
 
 if __name__ == '__main__':
