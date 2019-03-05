@@ -2,6 +2,13 @@ from constants import *
 
 
 class RequestObject:
+    """A class that parses attribute from misp to the format consumable by MS Graph API
+
+    to use the class:
+        request_object = RequestObject(attr) # this reads in the attr and parses it
+        # then use request.__dict__ to get the parsed dict
+
+    """
     def __init__(self, attr):
         mapping = ATTR_MAPPING.get(attr['type'])
         if mapping is not None:

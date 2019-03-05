@@ -8,6 +8,13 @@ from constants import *
 
 
 class RequestManager:
+    """A class that handles submitting TiIndicators to MS Graph API
+
+    to use the class:
+        with RequestManager() as request_manager:
+            request_manager.handle_indicator(tiindicator)
+
+    """
     def __enter__(self):
         self.del_count = 0
         try:
