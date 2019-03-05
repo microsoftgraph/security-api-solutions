@@ -10,7 +10,7 @@ from functools import reduce
 
 
 def _get_events():
-    misp = PyMISP(MISP_DOMAIN, config.misp_key)
+    misp = PyMISP(config.misp_domain, config.misp_key)
     if len(config.misp_event_filters) == 0:
         return [event['Event'] for event in misp.search(values="")['response']]
     events_for_each_filter = [

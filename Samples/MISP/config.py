@@ -13,3 +13,4 @@ action = "alert"
 passiveOnly = False
 days_to_expire = 5
 misp_key = '<misp key>'
+misp_domain = 'http://misp.westus.cloudapp.azure.com'
