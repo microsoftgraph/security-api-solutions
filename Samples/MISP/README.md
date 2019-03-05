@@ -21,20 +21,8 @@ Follow these steps to register a new application:
 
 1. Under Platforms, choose Add platform > Web.
 
-1. Under Delegated Permissions, add the permissions/scopes required for the sample. This sample requires User.Read, SecurityEvents.Read.All, and SecurityEvents.ReadWrite.All permissions.
+1. Under Delegated Permissions, add the permissions/scopes required for the sample. This sample requires ThreatIndicators.ReadWrite.OwnedBy.
     >Note: See the [Microsoft Graph permissions reference](https://developer.microsoft.com/en-us/graph/docs/concepts/permissions_reference) for more information about Graph's permission model.
-
-1. Enter http://localhost:5000/login/authorized as the Redirect URL, and then choose Save.
-
-Follow these steps to allow [webhooks](https://developer.microsoft.com/en-us/graph/docs/concepts/permissions_reference) to access the sample via a NGROK tunnel:
->Note: This is required if you want to test the sample Notification Listener on localhost. You must expose a public HTTPS endpoint to create a subscription and receive notifications from Microsoft Graph. While testing, you can use ngrok to temporarily allow messages from Microsoft Graph to tunnel to a localhost port on your computer.
-1. Download [ngrok](https://ngrok.com/download).
-
-1. Follow the installation instructions on the ngrok website.
-
-1. Run ngrok, if you are using Windows. Run "ngrok.exe http 5000" to start ngrok and open a tunnel to your localhost port 5000.
-
-1. Then update the config.py file with your ngrok url.
 
 As the final step in configuring the script, modify the config.py file in the root folder of your cloned repo.
 
@@ -53,7 +41,7 @@ Once changes are complete, save the config file. After you've completed these st
 `targetProduct = "Azure Sentinel"`
 
 ### Misp Event Filter
-This field is needed to filter events from the Misp Instance.
+Filters can be set in the config.py file under the "misp_event_filters" property
 
 Below is a list of parameters that can be passed to the filter (source: https://pymisp.readthedocs.io/modules.html):
 * values – values to search for
@@ -63,13 +51,14 @@ Below is a list of parameters that can be passed to the filter (source: https://
 * org – Org reporting the event
 * tags – Tags to search for
 * not_tags – Tags not to search for
-* date_from – First date
-* date_to – Last date
+* date_from – First date (Format: '2019-01-01')
+* date_to – Last date (Format: '2019-01-01')
 * last – Last published events (for example 5d or 12h or 30m)
 * eventid – Evend ID
 * withAttachments – return events with or without the attachments
 * uuid – search by uuid
-* publish_timestamp – the publish timestamp
+* publish_timestamp – the publish timestamp (Note: Uses UNIX timestamp.  Format: '1551811160')
+* published – return only published events (Format: True or False)
 
 A list or a specific value can be passed to the above parameters. If a list is passed to the parameter, the filtered events are the result of the union of provided list.
 
@@ -121,7 +110,7 @@ This gets all events.
 `passiveOnly = False`
 
 ### Days to Expire
-This field is needed to specify how long it should take for Threat Indicators pushed to Microsoft Graph API to expire. 
+This property is used to specify the amount of days the records will expire in Microsoft Security Graph API. The default value for days to expire is 30.  
 
 `days_to_expire = 5`
 
@@ -148,3 +137,8 @@ In the command line, run `python3 script.py -r`.
 As the script runs, it prints out the request body sent to the Graph API and the response from the Graph API.
 
 Every request is logged as a json file under the directory "logs". The name of the json file is the datetime of when the request is completed.
+
+## Schedule with CRONTAB
+Below is a CRONTAB entry example of running the script every Sunday at 2am
+
+0 2 * * Sun /home/mark/misp-graph-script/python3 script.sh
