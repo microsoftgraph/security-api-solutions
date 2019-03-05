@@ -1,12 +1,23 @@
 # MISP to Microsoft Security Graph Script
-MISP Graph Script provides clients with MISP instances to migrate threat indicators to the Microsoft Security Graph API.  
+MISP Graph Script provides clients with MISP instances to migrate threat indicators to the Microsoft Security Graph API. 
+
+For more information on MISP visit https://www.misp-project.org/
 
 ## Prerequisites
 Before installing the sample:
-Install Python 3.x version from https://www.python.org/. 
-To register your application for access to Microsoft Graph, you'll need either a [Microsoft account](https://www.outlook.com/) or an [Office 365 for business account](https://msdn.microsoft.com/en-us/office/office365/howto/setup-development-environment#bk_Office365Account). If you don't have one of these, you can create a Microsoft account for free at [outlook.com](https://www.outlook.com/).
+* Install Python 3.x version from https://www.python.org/. 
+* To register your application for access to Microsoft Graph, you'll need either a [Microsoft account](https://www.outlook.com/) or an [Office 365 for business account](https://msdn.microsoft.com/en-us/office/office365/howto/setup-development-environment#bk_Office365Account). If you don't have one of these, you can create a Microsoft account for free at [outlook.com](https://www.outlook.com/). 
 
-## Configuration
+**For more info on how to register app, see "App Registration" section.**
+
+## Getting Started
+After the prerequisites are installed or met, perform the following steps to use these scripts:
+
+1. Download or clone the misp-graph-script
+1. Install dependencies.  In the command line, run `pip3 install requests requests-futures pymisp` 
+1. To run script, go to the root directory of misp-graph-script and enter `PYTHONHASHSEED=0 python3 script.py` in the command line. 
+
+## App Registration
 To configure the samples, you'll need to register a new application in the Microsoft [Application Registration Portal](https://apps.dev.microsoft.com/).
 Follow these steps to register a new application:
 1. Sign in to the [Application Registration Portal](https://apps.dev.microsoft.com/) using either your personal or work or school account.
@@ -36,7 +47,7 @@ graph_auth = {
 ```
 Once changes are complete, save the config file. After you've completed these steps and have received [admin consent](https://github.com/microsoftgraph/python-security-rest-sample#Get-Admin-consent-to-view-Security-data) for your app, you'll be able to run the script.py sample as covered below.
 
-## Additional Configurations
+## Configurations
 ### Target Product
 `targetProduct = "Azure Sentinel"`
 
@@ -120,11 +131,6 @@ It can be found in the event actions menu under automation on the website of the
 
 `misp_key = '<misp key>'`
 
-## Instructions on How to Run 
-1. Install the latest Python 3 (refer to https://www.python.org/downloads/)
-2. In the command line, run `pip3 install requests requests-futures pymisp`. This installs the dependencies necessary to run the script.
-3. In the command line, run `PYTHONHASHSEED=0 python3 script.py`. This runs the script.
-
 ## Instructions on Reading TiIndicators That Have Been Pushed
 In the command line, run `python3 script.py -r`.
 
@@ -142,3 +148,24 @@ Every request is logged as a json file under the directory "logs". The name of t
 Below is a CRONTAB entry example of running the script every Sunday at 2am
 
 0 2 * * Sun /home/mark/misp-graph-script/python3 script.sh
+
+## Contributing
+If you'd like to contribute to this sample, see [CONTRIBUTING.MD](https://github.com/microsoftgraph/security-api-solutions/blob/master/CONTRIBUTING.md).
+
+This project has adopted the Microsoft Open Source Code of Conduct. For more information, see the Code of Conduct FAQ or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+## Questions and comments
+We'd love to get your feedback about the Security API PowerShell sample. You can send your questions and suggestions to us in the Issues section of this repository.
+
+Your feedback is important to us. Connect with us on [Microsoft tech community](https://techcommunity.microsoft.com/t5/Using-Microsoft-Graph-Security/bd-p/SecurityGraphAPI) or [Stack Overflow](https://stackoverflow.com/questions/tagged/microsoft-graph-security). On Stack Overflow tag your questions with [microsoft-graph-security].
+
+## Additional resources
+* [Microsoft Graph Security Documentation](https://developer.microsoft.com/en-us/graph/docs/concepts/security-concept-overview)
+* [Microsoft Graph Explorer](https://developer.microsoft.com/en-us/graph/graph-explorer)
+* [Microsoft code samples](https://developer.microsoft.com/en-us/graph/code-samples-and-sdks)
+* The authentication to Microsoft Graph is leveraged from the [powershell-intune-samples](https://github.com/microsoftgraph/powershell-intune-samples).
+
+## Copyright
+Copyright (c) 2018 Microsoft. All rights reserved.
+
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
