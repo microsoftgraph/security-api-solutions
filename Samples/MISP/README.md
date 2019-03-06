@@ -1,5 +1,5 @@
 # MISP to Microsoft Graph Security Script
-MISP Graph Script provides clients with MISP instances to migrate threat indicators to the Microsoft Graph Security API. 
+The script provides clients with MISP instances to migrate threat indicators to the Microsoft Graph Security API. 
 
 For more information on MISP visit https://www.misp-project.org/
 
@@ -13,7 +13,8 @@ Before installing the sample:
 ## Getting Started
 After the prerequisites are installed or met, perform the following steps to use these scripts:
 
-1. Download or clone the misp-graph-script
+1. Download or clone this repository.
+1. Go to directory `security-api-solutions/Samples/MISP`
 1. Install dependencies.  In the command line, run `pip3 install requests requests-futures pymisp` 
 1. To run script, go to the root directory of misp-graph-script and enter `PYTHONHASHSEED=0 python3 script.py` in the command line. 
 
