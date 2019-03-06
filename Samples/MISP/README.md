@@ -1,5 +1,5 @@
-# MISP to Microsoft Security Graph Script
-MISP Graph Script provides clients with MISP instances to migrate threat indicators to the Microsoft Security Graph API. 
+# MISP to Microsoft Graph Security Script
+MISP Graph Script provides clients with MISP instances to migrate threat indicators to the Microsoft Graph Security API. 
 
 For more information on MISP visit https://www.misp-project.org/
 
@@ -121,7 +121,7 @@ This gets all events.
 `passiveOnly = False`
 
 ### Days to Expire
-This property is used to specify the amount of days the records will expire in Microsoft Security Graph API. The default value for days to expire is 30.  
+This property is used to specify the amount of days the records will expire in Microsoft Graph Security API. The default value for days to expire is 30.  
 
 `days_to_expire = 5`
 
@@ -149,23 +149,22 @@ Below is a CRONTAB entry example of running the script every Sunday at 2am
 
 0 2 * * Sun /home/mark/misp-graph-script/python3 script.sh
 
-## Contributing
+# Contributing
 If you'd like to contribute to this sample, see [CONTRIBUTING.MD](https://github.com/microsoftgraph/security-api-solutions/blob/master/CONTRIBUTING.md).
 
 This project has adopted the Microsoft Open Source Code of Conduct. For more information, see the Code of Conduct FAQ or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-## Questions and comments
-We'd love to get your feedback about the Security API PowerShell sample. You can send your questions and suggestions to us in the Issues section of this repository.
+# Questions and comments
+We'd love to get your feedback about the MISP to Microsoft Graph Security script. You can send your questions and suggestions to us in the Issues section of this repository.
 
 Your feedback is important to us. Connect with us on [Microsoft tech community](https://techcommunity.microsoft.com/t5/Using-Microsoft-Graph-Security/bd-p/SecurityGraphAPI) or [Stack Overflow](https://stackoverflow.com/questions/tagged/microsoft-graph-security). On Stack Overflow tag your questions with [microsoft-graph-security].
 
-## Additional resources
+# Additional resources
 * [Microsoft Graph Security Documentation](https://developer.microsoft.com/en-us/graph/docs/concepts/security-concept-overview)
 * [Microsoft Graph Explorer](https://developer.microsoft.com/en-us/graph/graph-explorer)
 * [Microsoft code samples](https://developer.microsoft.com/en-us/graph/code-samples-and-sdks)
-* The authentication to Microsoft Graph is leveraged from the [powershell-intune-samples](https://github.com/microsoftgraph/powershell-intune-samples).
 
-## Copyright
+# Copyright
 Copyright (c) 2018 Microsoft. All rights reserved.
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
