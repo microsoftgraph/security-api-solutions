@@ -133,7 +133,7 @@ It can be found in the event actions menu under automation on the website of the
 `misp_key = '<misp key>'`
 
 ## Instructions on Reading TiIndicators That Have Been Pushed
-In the command line, run `python3 script.py -r`.
+In the command line, run `python3 script.py -r`
 
 ## Instructions on Seeing All Requests That Resulted in Errors
 1. In the command line, run `cd logs` to go to the logs folder.
