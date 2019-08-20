@@ -2,9 +2,9 @@
 const request = require('request-promise');
 
 // Application information bellow
-const appId = 'abca2d54-2fe9-430a-a2fb-485faf29b335';
-const appSecret = '01a4hpk6MCEUBX]mbYmgVS?]oRSh+=D1';
-const tenantId = '63d0b44f-8610-4dd2-91fd-541ffc973399';
+const appId = '<enter your application/client ID>';
+const appSecret = '<enter your application/client secret>';
+const tenantId = '<enter your tenant ID>';
 
 // Placeholders for sample queries
 let token;
