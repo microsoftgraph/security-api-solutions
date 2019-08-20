@@ -33,7 +33,6 @@ Update the variables in app.js as follows:
 const appId = '<enter your application/client ID>';
 const appSecret = '<enter your application/client secret>';
 const tenantId = '<enter your tenant ID>';
-
 ```
 Once changes are complete, save the file. After you've completed these steps and have received [admin consent](https://github.com/microsoftgraph/python-security-rest-sample#Get-Admin-consent-to-view-Security-data) for your app, you'll be able to run the app.js sample as covered below.
 
