@@ -43,4 +43,4 @@ Once changes are complete, save the file. After you've completed these steps and
 3) Execute `node app.js` to run the code
 
 ## Additional Resources
-For additional informaiton on using Microsoft Graph or the Microsoft Graph Security API, please visit <https://docs.microsoft.com/graph/>
+For additional informaiton on using Microsoft Graph or the Microsoft Graph Security API, please visit <https://docs.microsoft.com/graph/api/resources/security-api-overview?view=graph-rest-beta>
