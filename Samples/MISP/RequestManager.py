@@ -42,7 +42,7 @@ class RequestManager:
             config.graph_auth[TENANT],
             config.graph_auth[CLIENT_ID],
             config.graph_auth[CLIENT_SECRET])
-        self.headers = {"Authorization": f"Bearer {access_token}"}
+        self.headers = {"Authorization": f"Bearer {access_token}", 'user-agent': 'MISP/1.0'}
         self.headers_expiration_time = self._get_timestamp() + 3500
         self.success_count = 0
         self.error_count = 0
