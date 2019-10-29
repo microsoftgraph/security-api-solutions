@@ -10,7 +10,7 @@ from functools import reduce
 
 
 def _get_events():
-    misp = PyMISP(config.misp_domain, config.misp_key)
+    misp = PyMISP(config.misp_domain, config.misp_key, config.misp_verifycert)
     if len(config.misp_event_filters) == 0:
         return [event['Event'] for event in misp.search(values="")['response']]
     events_for_each_filter = [
@@ -92,6 +92,7 @@ def main():
     total_indicators = sum([len(v['request_objects']) for v in parsed_events])
     with RequestManager(total_indicators) as request_manager:
         for request_body in _graph_post_request_body_generator(parsed_events):
+            print(f"request body: {request_body}")
             request_manager.handle_indicator(request_body)
 
 

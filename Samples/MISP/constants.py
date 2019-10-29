@@ -73,6 +73,8 @@ EXISTING_INDICATORS_HASH_FILE_NAME = 'existing_indicators_hash.json'
 EXPIRATION_DATE_TIME = 'expirationDateTime'
 EXPIRATION_DATE_FILE_NAME = 'expiration_date.txt'
 INDICATOR_REQUEST_HASH = 'indicatorRequestHash'
+TARGET_PRODUCT_BULK_SUPPORT = ['Azure Sentinel']
+TARGET_PRODUCT_NON_BULK_SUPPORT = ['Microsoft Defender ATP']
 
 EVENT_MAPPING = {
     'date': 'firstReportedDateTime',

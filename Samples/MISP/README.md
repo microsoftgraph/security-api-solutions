@@ -5,7 +5,7 @@ For more information on MISP visit https://www.misp-project.org/
 
 ## Prerequisites
 Before installing the sample:
-* Install Python 3.x version from https://www.python.org/. 
+* Install Python 3.x version from https://www.python.org/.
 * To register your application for access to Microsoft Graph, you'll need either a [Microsoft account](https://www.outlook.com/) or an [Office 365 for business account](https://msdn.microsoft.com/en-us/office/office365/howto/setup-development-environment#bk_Office365Account). If you don't have one of these, you can create a Microsoft account for free at [outlook.com](https://www.outlook.com/). 
 
 **For more info on how to register app, see "App Registration" section.**
@@ -50,7 +50,7 @@ Once changes are complete, save the config file. After you've completed these st
 
 ## Configurations
 ### Target Product
-`targetProduct = "Azure Sentinel"`
+Possible values for **targetProduct** are: `Azure Sentinel`, `Microsoft Defender ATP`.
 
 ### Misp Event Filter
 Filters can be set in the config.py file under the "misp_event_filters" property
@@ -116,7 +116,7 @@ misp_event_filters = []
 This gets all events.
 
 ### Action
-`action = "alert"`
+Possible **action** values are: `alert`, `allow`, `block`.
 
 ### Passive Only
 `passiveOnly = False`
@@ -131,6 +131,15 @@ The Misp Key is required to fetch data from your Misp instance.
 It can be found in the event actions menu under automation on the website of the Misp instance.
 
 `misp_key = '<misp key>'`
+
+### Misp Domain
+Misp Domain is the base URL of your MISP instance.
+
+### Misp Verify Cert
+This gives you the option to choose if python should validate the certificate of the misp instance. This allows ease within testing environments.
+It is recommended to use a valid SSL cert in production and change this value to True.
+
+`misp_verifycert = False` 
 
 ## Instructions on Reading TiIndicators That Have Been Pushed
 In the command line, run `python3 script.py -r`
@@ -164,6 +173,7 @@ Your feedback is important to us. Connect with us on [Microsoft tech community](
 * [Microsoft Graph Security Documentation](https://developer.microsoft.com/en-us/graph/docs/concepts/security-concept-overview)
 * [Microsoft Graph Explorer](https://developer.microsoft.com/en-us/graph/graph-explorer)
 * [Microsoft code samples](https://developer.microsoft.com/en-us/graph/code-samples-and-sdks)
+* [MISP to Microsoft Graph Security connector](https://www.circl.lu/doc/misp/connectors/#misp-to-microsoft-graph-security-script)
 
 # Copyright
 Copyright (c) 2018 Microsoft. All rights reserved.
