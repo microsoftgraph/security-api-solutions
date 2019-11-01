@@ -1,7 +1,5 @@
 ﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -17,7 +15,8 @@ namespace MSGraphSecurity
 
         }
 
-        public async Task<string> GetSecureScoreControlPolicies(string content = "")
+        //create GET request to retrieve all secure score control profiles
+        public async Task<string> Get(string content = "")
         {
             var token = await GetToken();
 
@@ -45,19 +44,20 @@ namespace MSGraphSecurity
             return json;
         }
 
-        public async Task<string> UpdateSecureScoreControlPolicie(string id, object policy)
+        //create PATCH request to update a single secure score control profile by Id
+        public async Task<string> Patch(string id, SecureScoreControlProfile profile)
         {
             var token = await GetToken();
 
-            string url = string.Format("https://graph.microsoft.com/beta/security/secureScoreControlProfiles");
+            string url = string.Format("https://graph.microsoft.com/beta/security/secureScoreControlProfiles" + id);
 
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Patch, url);
 
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
 
-            var stringPolicy = JsonConvert.SerializeObject(policy);
+            var stringProfile = JsonConvert.SerializeObject(profile);
 
-            request.Content = new StringContent(stringPolicy, Encoding.UTF8, "application/json");
+            request.Content = new StringContent(stringProfile, Encoding.UTF8, "application/json");
 
             HttpClient http = new HttpClient();
 
@@ -75,6 +75,7 @@ namespace MSGraphSecurity
             return json;
         }
 
+        //create GET request to retrieve access token
         private async Task<AuthenticationResult> GetToken()
         {
             var accessToken = new AccessToken();

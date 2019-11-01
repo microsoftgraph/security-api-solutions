@@ -1,7 +1,5 @@
 ﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -17,7 +15,8 @@ namespace MSGraphSecurity
 
         }
 
-        public async Task<string> GetSecureScores(string content = "")
+        //create GET request to retrieve all secure scores
+        public async Task<string> Get(string content = "")
         {
             var token = await GetToken();
 
@@ -45,6 +44,7 @@ namespace MSGraphSecurity
             return json;
         }
 
+        //create GET request to retrieve access token
         private async Task<AuthenticationResult> GetToken()
         {
             var accessToken = new AccessToken();

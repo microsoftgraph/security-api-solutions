@@ -1,47 +1,44 @@
-﻿using System;
+﻿using Microsoft.Graph;
+using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace MSGraphSecurity
 {
     public class Alert
     {
+        //Properties of Alert
         public string ActivityGroupName { get; set; }
-        public string MyProperty { get; set; }
+        public string AssignedTo { get; set; }
+        public string AzureSubscriptionId { get; set; }
+        public string AzureTenantId { get; set; }
+        public string Category { get; set; }
+        public DateTimeOffset ClosedDateTime { get; set; }
+        public List<CloudAppSecurityState> CloudAppStates { get; set; }
+        public List<string> Comments { get; set; }
+        public int Confidence { get; set; }
+        public DateTimeOffset CreatedDateTime { get; set; }
+        public string Description { get; set; }
+        public List<string> DetectionIds { get; set; }
+        public DateTimeOffset EventDateTime { get; set; }
+        public AlertFeedback Feedback { get; set; }
+        public List<FileSecurityState> FileStates { get; set; }
+        public List<AlertHistoryState> HistoryStates { get; set; }
+        public List<HostSecurityState> HostStates { get; set; }
+        public string Id { get; set; }
+        public DateTimeOffset LastModifiedDateTime { get; set; }
+        public List<MalwareState> MalwareStates { get; set; }
+        public List<NetworkConnection> NetworkConnections { get; set; }
+        public List<Process> Processes { get; set; }
+        public List<string> RecommendedActions { get; set; }
+        public List<RegistryKeyState> RegistryKeyStates { get; set; }
+        public AlertSeverity Severity { get; set; }
+        public List<string> SourceMaterials { get; set; }
+        public AlertStatus Status { get; set; }
+        public List<string> Tags { get; set; }
+        public string Title { get; set; }
+        public List<AlertTrigger> Triggers { get; set; }
+        public List<UserSecurityState> UserStates { get; set; }
+        public SecurityVendorInformation VendorInformation { get; set; }
+        public List<VulnerabilityState> VulnerabilityStates { get; set; }
     }
 }
-
-
-  //"activityGroupName": "String",
-  //"assignedTo": "String",
-  //"azureSubscriptionId": "String",
-  //"azureTenantId": "String",
-  //"category": "String",
-  //"closedDateTime": "String (timestamp)",
-  //"cloudAppStates": [{"@odata.type": "microsoft.graph.cloudAppSecurityState"}],
-  //"comments": ["String"],
-  //"confidence": 1024,
-  //"createdDateTime": "String (timestamp)",
-  //"description": "String",
-  //"detectionIds": ["String"],
-  //"eventDateTime": "String (timestamp)",
-  //"feedback": "@odata.type: microsoft.graph.alertFeedback",
-  //"fileStates": [{"@odata.type": "microsoft.graph.fileSecurityState"}],
-  //"historyStates": [{"@odata.type": "microsoft.graph.alertHistoryState"}],
-  //"hostStates": [{"@odata.type": "microsoft.graph.hostSecurityState"}],
-  //"id": "String (identifier)",
-  //"lastModifiedDateTime": "String (timestamp)",
-  //"malwareStates": [{"@odata.type": "microsoft.graph.malwareState"}],
-  //"networkConnections": [{"@odata.type": "microsoft.graph.networkConnection"}],
-  //"processes": [{"@odata.type": "microsoft.graph.process"}],
-  //"recommendedActions": ["String"],
-  //"registryKeyStates": [{"@odata.type": "microsoft.graph.registryKeyState"}],
-  //"severity": "@odata.type: microsoft.graph.alertSeverity",
-  //"sourceMaterials": ["String"],
-  //"status": "@odata.type: microsoft.graph.alertStatus",
-  //"tags": ["String"],
-  //"title": "String",
-  //"triggers": [{"@odata.type": "microsoft.graph.alertTrigger"}],
-  //"userStates": [{"@odata.type": "microsoft.graph.userSecurityState"}],
-  //"vendorInformation": {"@odata.type": "microsoft.graph.securityVendorInformation"},
-  //"vulnerabilityStates": [{"@odata.type": "microsoft.graph.vulnerabilityState"}]

@@ -1,25 +1,26 @@
 ﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MSGraphSecurity
 {
+    //Access token class to authenticate and obtain AAD Token for future calls
     public class AccessToken
     {
         static ClientCredential credential;
         static AuthenticationContext authContext;
 
-        static readonly string tenantId = "enter your tenantID";
-        static readonly string appId = "enter your appID";
-        static readonly string appSecret = "enter your app secret";
+        //enter your tenantId, app/client Id, and app/client secret
+        static readonly string tenantId = "<enter your tenant Id here>";
+        static readonly string appId = "<enter your app Id here>";
+        static readonly string appSecret = "<enter your app secret here>";
 
         public AccessToken()
         {
 
         }
 
+        //create GET request to retrieve access token
         public async Task<AuthenticationResult> GetToken()
         {
             authContext = new AuthenticationContext("https://login.microsoftonline.com/" + tenantId);

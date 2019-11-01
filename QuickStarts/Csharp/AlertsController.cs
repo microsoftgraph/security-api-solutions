@@ -17,6 +17,7 @@ namespace MSGraphSecurity
             
         }
 
+        //create GET request to retrieve all security alerts
         public async Task<string> GetAlerts(string content = "")
         {
             var token = await GetToken();
@@ -45,6 +46,7 @@ namespace MSGraphSecurity
             return json;
         }
 
+        //create GET request to retrieve a single security alert by Id
         public async Task<string> GetAlert(string id, string content = "")
         {
             var token = await GetToken();
@@ -73,7 +75,8 @@ namespace MSGraphSecurity
             return json;
         }
 
-        public async Task<string> UpdateAlert(string id, object alert)
+        //create PATCH request to update a single security alert by Id
+        public async Task<string> PatchAlert(string id, object alert)
         {
             var token = await GetToken();
 
@@ -103,6 +106,7 @@ namespace MSGraphSecurity
             return json;
         }
 
+        //create GET request to retrieve access token
         private async Task<AuthenticationResult> GetToken()
         {
             var accessToken = new AccessToken();
