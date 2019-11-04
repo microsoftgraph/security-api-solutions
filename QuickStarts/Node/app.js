@@ -1,97 +1,93 @@
 'use strict'
-const request = require('request-promise');
+const GraphSecurityAPI = require('./GraphController');
+const config = require('./config');
+const print = require('./etc/logHelper');
 
-// Application information bellow
-const appId = '<enter your application/client ID>';
-const appSecret = '<enter your application/client secret>';
-const tenantId = '<enter your tenant ID>';
+RunAlert();
+RunTI();
+RunTIs();
+RunSecureScore();
 
-// Placeholders for sample queries
-let token;
-let alert;
-Run();
-
-function Run() {
-  // Create POST request to receive authentication token for Graph API requests
-  const options = {
-    uri: `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`,
-    method: 'POST',
-    form: {
-      client_id: appId,
-      client_secret: appSecret,
-      grant_type: 'client_credentials',
-      scope: 'https://graph.microsoft.com/.default'
-    },
-    json: true
-  };
-  request(options)
-    .then(data => {
-      console.log('\n---------- Received Auth Token -----------\n');
-      console.log(data);
-      token = data;
-      return getAlerts();
+function RunAlert() {
+  const GraphSecurity = new GraphSecurityAPI(config);
+  GraphSecurity.getAuthenticationToken()
+    .then(token => {
+      print.logToken(token);
+      GraphSecurity.storeToken(token);
+      return GraphSecurity.getAlerts();
     })
-    .then(data => {
-      console.log('\n---------- Received All Alerts -----------\n');
-      console.log('Received ' + data.value.length + ' alerts...');
-      console.log('Printing first alert');
-      console.log(data.value[0]);
-      alert = data.value[0];
-      return getOneAlert(alert.id);
+    .then(alerts => { 
+      print.logAlerts(alerts);
+      return GraphSecurity.getOneAlert(alerts.value[0].id)
     })
-    .then(data => {
-      console.log('\n---------- Received One Alert by ID -----------\n');
-      console.log(data);
-      console.log('\nPrinting comments');
-      console.log('Comments: ', data.comments);
-      return updateAlert(data);
+    .then(alertData => {
+      print.logAlert(alertData);
+      return GraphSecurity.updateAlert(alertData.id);
     })
-    .then(data => {
-      console.log('\n---------- Updated One Alert by ID -----------\n');
-      console.log(data);
-      console.log('\nPrinting comments');
-      console.log('Comments: ', data.comments);
+    .then(updatedAlert => {
+      print.logUpdateAlert(updatedAlert);
     })
     .catch(err => console.log(err.message));
 }
 
-// Create GET request to retrieve all security alerts
-function getAlerts() {
-  const options = {
-    uri: 'https://graph.microsoft.com/v1.0/security/alerts',
-    method: 'GET',
-    headers: { 'Authorization': 'Bearer ' + token.access_token },
-    json: true
-  };
-  return request(options)
+function RunTI() {
+  const GraphSecurity = new GraphSecurityAPI(config);
+  GraphSecurity.getAuthenticationToken()
+    .then(token => {
+      print.logToken(token);
+      GraphSecurity.storeToken(token);
+      return GraphSecurity.getTIs();
+    })
+    .then(indicators => { 
+      print.logTIs(indicators);
+      return GraphSecurity.getOneTI(indicators.value[0].id)
+    })
+    .then(tiData => {
+      print.logTI(tiData);
+      return GraphSecurity.updateTI(tiData.id);
+    })
+    .then(updatedTI => {
+      print.logUpdateTI(updatedTI);
+      return GraphSecurity.deleteTI(tiData.id);
+    })
+    .then(updatedTI => {
+      print.logDeleteTI(updatedTI);
+    })
+    .catch(err => console.log(err.message));
 }
 
-// Create GET request to retrieve a single security alert
-function getOneAlert(alertId) {
-  const options = {
-    uri: 'https://graph.microsoft.com/v1.0/security/alerts/' + alertId,
-    method: 'GET',
-    headers: { 'Authorization': 'Bearer ' + token.access_token },
-    json: true
-  };
-  return request(options)
+function RunTIs() {
+  const GraphSecurity = new GraphSecurityAPI(config);
+  GraphSecurity.getAuthenticationToken()
+    .then(token => {
+      print.logToken(token);
+      GraphSecurity.storeToken(token);
+      return GraphSecurity.createTIs();
+    })
+    .then(createdTIs => { 
+      print.logCreateTIs(createdTIs);
+      return GraphSecurity.updateTIs({ "value": [createdTIs] });
+    })
+    .then(tiData => {
+      print.logUpdateTIs(tiData);
+      return GraphSecurity.deleteTIs({ "value": [tiData] });
+    })
+    .then(updatedTIs => {
+      print.logDeleteTIs(updatedTIs);
+    })
+    .catch(err => console.log(err.message));
 }
 
-// Create PATCH request to update a security alert
-function updateAlert(alert) {
-  const options = {
-    uri: 'https://graph.microsoft.com/v1.0/security/alerts/' + alert.id,
-    method: 'PATCH',
-    form: {
-      comments: ['This is an updated comment example'],
-      vendorInformation: alert.vendorInformation
-    },
-    headers: {
-      'Authorization': 'Bearer ' + token.access_token,
-      'Prefer': 'return=representation'
-    },
-    json: true
-  };
-  options.form = JSON.stringify(options.form);
-  return request(options);
+function RunSecureScore() {
+  const GraphSecurity = new GraphSecurityAPI(config);
+  GraphSecurity.getAuthenticationToken()
+    .then(token => {
+      print.logToken(token);
+      GraphSecurity.storeToken(token);
+      return GraphSecurity.getSecureScores();
+    })
+    .then(secureScores => { 
+      print.logSecurescores(secureScores);
+    })
+    .catch(err => console.log(err.message));
 }

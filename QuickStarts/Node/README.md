@@ -5,8 +5,14 @@ This repository contains a very simple Node application that implements the Micr
 
 ### Examples Provided
 - GET all alerts
-- GET one alert
-- PATCH one alert
+- GET and PATCH one alert
+- GET all secure scores
+- GET all TI Indicators
+- GET, PATCH, and DELETE one TI indicator
+- CREATE, PATCH and DELETE multiple TI indicators
+- DELETE multiple TI indicators by External IDs
+> > - PATCH and DELETE bulk TI indicators currently support only `Azure Sentinel` **targetProduct**.
+> > - **targetProduct** and **expirationDateTime** are required for PATCH and DELETE bulk methods.
 
 ## App Registration
 To configure the sample, you'll need to register a new application in the Microsoft [Application Registration Portal](https://go.microsoft.com/fwlink/?linkid=2083908).
@@ -36,11 +42,17 @@ const tenantId = '<enter your tenant ID>';
 ```
 Once changes are complete, save the file. After you've completed these steps and have received [admin consent](https://github.com/microsoftgraph/python-security-rest-sample#Get-Admin-consent-to-view-Security-data) for your app, you'll be able to run the app.js sample as covered below.
 
+### Notes:
+- The "etc" folder has non-essential code for the sample
+- The "run" function in app.js is the entry point for the application
+- All code that interacts with the API is contained inside GraphController.js
+
 ## Instructions
 1) Clone this repository
 2) Register an application using the steps above
-3) Execute `npm i` to install "request" and "request-promise"
-3) Execute `node app.js` to run the code
+3) Execute "npm i" to install "request" and "request-promise"
+4) Provide you application details in the config.js file
+5) Execute "node app.js" to start the server
 
 ## Additional Resources
 For additional informaiton on using Microsoft Graph or the Microsoft Graph Security API, please visit <https://docs.microsoft.com/graph/api/resources/security-api-overview>
