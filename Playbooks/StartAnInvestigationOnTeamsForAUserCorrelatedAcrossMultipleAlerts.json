@@ -1,0 +1,210 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "For_each_high_severity_alerts,_do_these_steps:": {
+                "actions": {
+                    "For_each_on-call_analyst_from_the_list,_do_these_steps:": {
+                        "actions": {
+                            "Loop_through_UserStates_for_each_alert": {
+                                "actions": {
+                                    "Create_HTML_table_for_AlertsRelatedToUserCollection": {
+                                        "inputs": {
+                                            "format": "HTML",
+                                            "from": "@variables('AlertsRelatedToUser')"
+                                        },
+                                        "runAfter": {
+                                            "Set_AlertsRelatedToUser": [
+                                                "Succeeded"
+                                            ]
+                                        },
+                                        "type": "Table"
+                                    },
+                                    "Get_alerts_that_match_the_user_name": {
+                                        "inputs": {
+                                            "host": {
+                                                "connection": {
+                                                    "name": "@parameters('$connections')['microsoftgraphsecurity']['connectionId']"
+                                                }
+                                            },
+                                            "method": "get",
+                                            "path": "/v1.0/security/alerts",
+                                            "queries": {
+                                                "$filter": "userStates/any(a:a/userPrincipalName eq '@{items('Loop_through_UserStates_for_each_alert')?['userPrincipalName']}')"
+                                            }
+                                        },
+                                        "runAfter": {},
+                                        "type": "ApiConnection"
+                                    },
+                                    "Send_alerts_related_to_the_user_to_Teams_channel_for_investigations": {
+                                        "inputs": {
+                                            "body": {
+                                                "body": {
+                                                    "content": "<p>Please investigate these alerts related to a user with the following username:@{items('Loop_through_UserStates_for_each_alert')?['userPrincipalName']}<br>\n<br>\n@{body('Create_HTML_table_for_AlertsRelatedToUserCollection')}<br>\n</p>",
+                                                    "contentType": "html"
+                                                }
+                                            },
+                                            "host": {
+                                                "connection": {
+                                                    "name": "@parameters('$connections')['teams']['connectionId']"
+                                                }
+                                            },
+                                            "method": "post",
+                                            "path": "/v3/beta/teams/@{encodeURIComponent('<Team_guid>')}/channels/@{encodeURIComponent('<Channel_guid>')}/messages"
+                                        },
+                                        "runAfter": {
+                                            "Create_HTML_table_for_AlertsRelatedToUserCollection": [
+                                                "Succeeded"
+                                            ]
+                                        },
+                                        "type": "ApiConnection"
+                                    },
+                                    "Set_AlertsRelatedToUser": {
+                                        "inputs": {
+                                            "name": "AlertsRelatedToUser",
+                                            "value": "@body('Get_alerts_that_match_the_user_name')?['value']"
+                                        },
+                                        "runAfter": {
+                                            "Get_alerts_that_match_the_user_name": [
+                                                "Succeeded"
+                                            ]
+                                        },
+                                        "type": "SetVariable"
+                                    }
+                                },
+                                "foreach": "@items('For_each_high_severity_alerts,_do_these_steps:')?['userStates']",
+                                "runAfter": {
+                                    "Update_alert_-_Assign_alert_to_an_analyst": [
+                                        "Succeeded"
+                                    ]
+                                },
+                                "type": "Foreach"
+                            },
+                            "Update_alert_-_Assign_alert_to_an_analyst": {
+                                "inputs": {
+									"body": {
+										"assignedTo": "@items('For_each_on-call_analyst_from_the_list,_do_these_steps:')?['Person_x0020_Name']?['JobTitle']",
+										"status": "inProgress",
+										"vendorInformation": {
+											"provider": "@items('For_each_high_severity_alerts,_do_these_steps:')?['vendorInformation']?['provider']",
+											"vendor": "@items('For_each_high_severity_alerts,_do_these_steps:')?['vendorInformation']?['vendor']"
+										}
+									},
+                                    "host": {
+                                        "connection": {
+                                            "name": "@parameters('$connections')['microsoftgraphsecurity']['connectionId']"
+                                        }
+                                    },
+                                    "method": "patch",
+                                    "path": "/v1.0/security/alerts/@{encodeURIComponent(items('For_each_high_severity_alerts,_do_these_steps:')?['id'])}"
+                                },
+                                "runAfter": {},
+                                "type": "ApiConnection"
+                            }
+                        },
+                        "foreach": "@body('Get_the_list_of_on-call_analysts_from_SharePoint')?['value']",
+                        "runAfter": {
+                            "Get_the_list_of_on-call_analysts_from_SharePoint": [
+                                "Succeeded"
+                            ]
+                        },
+                        "type": "Foreach"
+                    },
+                    "Get_the_list_of_on-call_analysts_from_SharePoint": {
+						"inputs": {
+							"host": {
+								"connection": {
+									"name": "@parameters('$connections')['sharepointonline']['connectionId']"
+								}
+							},
+							"method": "get",
+							"path": "/datasets/@{encodeURIComponent(encodeURIComponent('https://<yourdomain>.sharepoint.com/securityanalyst/'))}/tables/@{encodeURIComponent(encodeURIComponent('<guid>'))}/items",
+							"queries": {
+								"$top": 1
+							}
+						},
+                        "runAfter": {},
+                        "type": "ApiConnection"
+                    }
+                },
+                "foreach": "@triggerBody()?['value']",
+                "runAfter": {
+                    "Initialize_AlertsRelatedToUser": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Foreach"
+            },
+            "Initialize_AlertDetails": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "AlertDetails",
+                            "type": "Object",
+                            "value": {
+                                "AlertID": "1",
+                                "AssignedTo": "initialize",
+                                "CreatedDateTime": "2",
+                                "Provider": "initialize",
+                                "RecommendedActions": "initialize",
+                                "Severity": "low",
+                                "Title": "initialize"
+                            }
+                        }
+                    ]
+                },
+                "runAfter": {},
+                "type": "InitializeVariable"
+            },
+            "Initialize_AlertsRelatedToUser": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "AlertsRelatedToUser",
+                            "type": "Array",
+                            "value": []
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Initialize_AlertDetails": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "InitializeVariable"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "parameters": {
+            "$connections": {
+                "defaultValue": {},
+                "type": "Object"
+            }
+        },
+        "triggers": {
+            "On_new_high_severity_alerts": {
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['microsoftgraphsecurity']['connectionId']"
+                        }
+                    },
+                    "method": "get",
+                    "path": "/trigger/beta/security/alerts"
+                },
+                "recurrence": {
+                    "frequency": "Minute",
+                    "interval": 3
+                },
+                "type": "ApiConnection"
+            }
+        }
+    },
+    "parameters": {
+        "$connections": {
+            "value": {
+            }
+        }
+    }
+}

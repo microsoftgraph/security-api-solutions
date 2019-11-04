@@ -1,0 +1,120 @@
+{
+  "definition": {
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+    "actions": {
+      "For_each_high_severity_alert,_do_these_steps:": {
+        "actions": {
+          "Loop_through_NetworkConnections_of_each_alert": {
+            "actions": {
+              "POST_Http_request_to_get_access_token": {
+                "inputs": {
+                  "body": "client_id=<client_id>\n&scope=<scope>\n&client_secret=<client_secret>\n&grant_type=<grant_type>",
+                  "headers": {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                  },
+                  "method": "POST",
+                  "uri": "https://login.microsoftonline.com/<tenant_id>/oauth2/v2.0/token"
+                },
+                "runAfter": {},
+                "type": "Http"
+              },
+              "Parse_JSON": {
+                "inputs": {
+                  "content": "@body('POST_Http_request_to_get_access_token')",
+                  "schema": {
+                    "properties": {
+                      "access_token": {
+                        "type": "string"
+                      },
+                      "expires_in": {
+                        "type": "integer"
+                      },
+                      "ext_expires_in": {
+                        "type": "integer"
+                      },
+                      "token_type": {
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  }
+                },
+                "runAfter": {
+                  "POST_Http_request_to_get_access_token": [
+                    "Succeeded"
+                  ]
+                },
+                "type": "ParseJson"
+              },
+              "Submit_TI_Indicator_to_MDATP_via_Http_POST_request": {
+                "inputs": {
+                  "body": {
+                    "action": "block",
+                    "description": "My Test TI",
+                    "expirationDateTime": "2019-11-20T21:43:37.5031462+00:00",
+                    "externalId": "Test External ID",
+                    "networkDestinationIPv4": "@items('Loop_through_NetworkConnections_of_each_alert')?['destinationAddress']",
+                    "targetProduct": "Microsoft Defender ATP",
+                    "threatType": "WatchList",
+                    "tlpLevel": "green"
+                  },
+                  "headers": {
+                    "Authorization": "Bearer @{body('Parse_JSON')?['access_token']}",
+                    "Content-Type": "application/json"
+                  },
+                  "method": "POST",
+                  "uri": "https://graph.microsoft.com/beta/security/tiIndicators"
+                },
+                "runAfter": {
+                  "Parse_JSON": [
+                    "Succeeded"
+                  ]
+                },
+                "type": "Http"
+              }
+            },
+            "foreach": "@items('For_each_high_severity_alert,_do_these_steps:')?['networkConnections']",
+            "runAfter": {},
+            "type": "Foreach"
+          }
+        },
+        "foreach": "@triggerBody()?['value']",
+        "runAfter": {},
+        "type": "Foreach"
+      }
+    },
+    "contentVersion": "1.0.0.0",
+    "outputs": {},
+    "parameters": {
+      "$connections": {
+        "defaultValue": {},
+        "type": "Object"
+      }
+    },
+    "triggers": {
+      "On_new_high_severity_alerts": {
+        "inputs": {
+          "host": {
+            "connection": {
+              "name": "@parameters('$connections')['microsoftgraphsecurity']['connectionId']"
+            }
+          },
+          "method": "get",
+          "path": "/trigger/beta/security/alerts"
+        },
+        "recurrence": {
+          "frequency": "Minute",
+          "interval": 3
+        },
+        "type": "ApiConnection"
+      }
+    }
+  },
+  "parameters": {
+    "$connections": {
+      "value": {
+        }
+      }
+    }
+  }
+}
