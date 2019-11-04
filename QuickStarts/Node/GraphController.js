@@ -130,36 +130,33 @@ GraphSecurityAPI.prototype.getOneTI = function(tiId) {
 /*
  * Creates a POST request to submit a single TI indicator.
  */
-GraphSecurityAPI.prototype.createTI = function(data) {
+GraphSecurityAPI.prototype.createTI = function() {
   const options = {
     uri: 'https://graph.microsoft.com/beta/security/tiIndicators',
     method: 'POST',
-    form: data,
+    form:  {
+      "action": "alert",
+      "activityGroupNames": [],
+      "confidence": 0,
+      "description": "This is a canary indicator for demo purpose. Take no action on any observables set in this indicator.",
+      "expirationDateTime": "2019-11-30T21:43:37.5031462+00:00",
+      "externalId": "Test--8586509942679764298MS501",
+      "fileHashType": "sha256",
+      "fileHashValue": "aa64428647b57bf51524d1756b2ed746e5a3f31b67cf7fe5b5d8a9daf07ca313",
+      "killChain": [],
+      "malwareFamilyNames": [],
+      "severity": 0,
+      "tags": [],
+      "targetProduct": "Azure Sentinel",
+      "threatType": "WatchList",
+      "tlpLevel": "green"
+      },
     headers: { 'Authorization': 'Bearer ' + this.token.access_token },
     json: true
   };
   options.form = JSON.stringify(options.form);
   return request(options);
 }
-
-//example  CreatTI data
-/*data = {
-"action": "alert",
-"activityGroupNames": [],
-"confidence": 0,
-"description": "This is a canary indicator for demo purpose. Take no action on any observables set in this indicator.",
-"expirationDateTime": "2019-11-30T21:43:37.5031462+00:00",
-"externalId": "Test--8586509942679764298MS501",
-"fileHashType": "sha256",
-"fileHashValue": "aa64428647b57bf51524d1756b2ed746e5a3f31b67cf7fe5b5d8a9daf07ca313",
-"killChain": [],
-"malwareFamilyNames": [],
-"severity": 0,
-"tags": [],
-"targetProduct": "Azure Sentinel",
-"threatType": "WatchList",
-"tlpLevel": "green"
-};*/
 
 /*
  *  Creates a PATCH request to update a TI indicator.
@@ -202,56 +199,52 @@ GraphSecurityAPI.prototype.deleteOneTI = function(tiId) {
 /*
  * Creates a POST request to submit multiple TI indicators.
  */
-GraphSecurityAPI.prototype.createTIs = function(data) {
+GraphSecurityAPI.prototype.createTIs = function() {
   const options = {
     uri: 'https://graph.microsoft.com/beta/security/tiIndicators/submitTiIndicators',
     method: 'POST',
-    form: data,
+    form: {
+      "value": [
+        {
+         "activityGroupNames": [],
+         "confidence": 0,
+         "description": "This is a canary indicator for demo purpose. Take no action on any observables set in this indicator.",
+         "expirationDateTime": "2019-11-30T21:44:03.1668987+00:00",
+         "externalId": "Test--8586509942423126760MS164-0",
+         "fileHashType": "sha256",
+         "fileHashValue": "b555c45c5b1b01304217e72118d6ca1b14b7013644a078273cea27bbdc1cf9d6",
+         "killChain": [],
+         "malwareFamilyNames": [],
+         "severity": 0,
+         "tags": [],
+         "targetProduct": "Azure Sentinel",
+         "threatType": "WatchList",
+         "tlpLevel": "green",
+        },
+        {
+         "activityGroupNames": [],
+         "confidence": 0,
+         "description": "This is a canary indicator for demo purpose. Take no action on any observables set in this indicator.",
+         "expirationDateTime": "2019-03-01T21:44:03.1748779+00:00",
+         "externalId": "Test--8586509942423126760MS164-1",
+         "fileHashType": "sha256",
+         "fileHashValue": "1796b433950990b28d6a22456c9d2b58ced1bdfcdf5f16f7e39d6b9bdca4213b",
+         "killChain": [],
+         "malwareFamilyNames": [],
+         "severity": 0,
+         "tags": [],
+         "targetProduct": "Azure Sentinel",
+         "threatType": "WatchList",
+         "tlpLevel": "green",
+       }
+     ]
+   },
     headers: { 'Authorization': 'Bearer ' + this.token.access_token },
     json: true
   };
   options.form = JSON.stringify(options.form);
   return request(options);
 }
-
-// example CreateTIs data
-// data = {
-//   "value": [
-//     {
-//       "activityGroupNames": [],
-//       "confidence": 0,
-//       "description": "This is a canary indicator for demo purpose. Take no action on any observables set in this indicator.",
-//       "expirationDateTime": "2019-11-30T21:44:03.1668987+00:00",
-//       "externalId": "Test--8586509942423126760MS164-0",
-//       "fileHashType": "sha256",
-// //    "fileHashValue": "b555c45c5b1b01304217e72118d6ca1b14b7013644a078273cea27bbdc1cf9d6",
-//       "killChain": [],
-//       "malwareFamilyNames": [],
-//       "severity": 0,
-//       "tags": [],
-//       "targetProduct": "Azure Sentinel",
-//       "threatType": "WatchList",
-//       "tlpLevel": "green",
-//     },
-//     {
-//       "activityGroupNames": [],
-//       "confidence": 0,
-//       "description": "This is a canary indicator for demo purpose. Take no action on any observables set in this indicator.",
-//       "expirationDateTime": "2019-03-01T21:44:03.1748779+00:00",
-//       "externalId": "Test--8586509942423126760MS164-1",
-//       "fileHashType": "sha256",
-//       "fileHashValue": "1796b433950990b28d6a22456c9d2b58ced1bdfcdf5f16f7e39d6b9bdca4213b",
-//       "killChain": [],
-//       "malwareFamilyNames": [],
-//       "severity": 0,
-//       "tags": [],
-//       "targetProduct": "Azure Sentinel",
-//       "threatType": "WatchList",
-//       "tlpLevel": "green",
-//     }
-//   ]
-// }
-
 
 /*
  * Creates a POST request to update multiple TI indicators.
@@ -308,7 +301,6 @@ GraphSecurityAPI.prototype.deleteTIs = function(data) {
   options.form = JSON.stringify(options.form);
   return request(options);
 }
-
  //example DeleteTIs data
 /*
 data = {
@@ -333,7 +325,6 @@ GraphSecurityAPI.prototype.deleteTIsByExternalId = function(data) {
   options.form = JSON.stringify(options.form);
   return request(options);
 }
-
  //example DeleteTIsByExternalId data
 /*
 data = {

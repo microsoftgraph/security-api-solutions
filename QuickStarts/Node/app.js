@@ -50,8 +50,8 @@ function RunTI() {
       print.logUpdateTI(updatedTI);
       return GraphSecurity.deleteTI(tiData.id);
     })
-    .then(updatedTI => {
-      print.logDeleteTI(updatedTI);
+    .then(deletedTI => {
+      print.logDeleteTI(deletedTI);
     })
     .catch(err => console.log(err.message));
 }
@@ -62,18 +62,18 @@ function RunTIs() {
     .then(token => {
       print.logToken(token);
       GraphSecurity.storeToken(token);
-      return GraphSecurity.createTIs(data);
+      return GraphSecurity.createTIs();
     })
     .then(createdTIs => { 
       print.logCreateTIs(createdTIs);
       return GraphSecurity.updateTIs({ "value": [createdTIs] });
     })
-    .then(tiData => {
-      print.logUpdateTIs(tiData);
-      return GraphSecurity.deleteTIs({ "value": [tiData] });
-    })
     .then(updatedTIs => {
-      print.logDeleteTIs(updatedTIs);
+      print.logUpdateTIs(updatedTIs);
+      return GraphSecurity.deleteTIs({ "value": [updatedTIs] });
+    })
+    .then(deletedTIs => {
+        print.logDeleteTIs(deletedTIs);
     })
     .catch(err => console.log(err.message));
 }

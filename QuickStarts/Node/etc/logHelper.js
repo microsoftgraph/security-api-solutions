@@ -1,7 +1,7 @@
 function logToken(token) {
   console.log(token);
   console.log('*'.repeat(80));
-  console.log('Getting All Alerts');
+  console.log('Making a Get All request');
   console.log('*'.repeat(80));
 }
 
@@ -56,8 +56,6 @@ function logCreateTI(ti) {
 
 function logDeleteTI(ti) {
   console.log('TI deleted');
-  console.log('*'.repeat(80));
-  console.log('Creating bulk TIs');
   console.log('*'.repeat(80));
 }
 
