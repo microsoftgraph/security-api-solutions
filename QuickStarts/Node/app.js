@@ -42,16 +42,16 @@ function RunTI() {
       print.logTIs(indicators);
       return GraphSecurity.getOneTI(indicators.value[0].id)
     })
-    .then(tiData => {
-      print.logTI(tiData);
-      return GraphSecurity.updateTI(tiData.id);
+    .then(createdTI => {
+      print.logTI(createdTI);
+      return GraphSecurity.updateTI(createdTI.id);
     })
     .then(updatedTI => {
       print.logUpdateTI(updatedTI);
       return GraphSecurity.deleteTI(tiData.id);
     })
-    .then(updatedTI => {
-      print.logDeleteTI(updatedTI);
+    .then(deletedTI => {
+      print.logDeleteTI(deletedTI);
     })
     .catch(err => console.log(err.message));
 }
@@ -68,12 +68,12 @@ function RunTIs() {
       print.logCreateTIs(createdTIs);
       return GraphSecurity.updateTIs({ "value": [createdTIs] });
     })
-    .then(tiData => {
-      print.logUpdateTIs(tiData);
-      return GraphSecurity.deleteTIs({ "value": [tiData] });
-    })
     .then(updatedTIs => {
-      print.logDeleteTIs(updatedTIs);
+      print.logUpdateTIs(updatedTIs);
+      return GraphSecurity.deleteTIs({ "value": [updatedTIs] });
+    })
+    .then(deletedTIs => {
+        print.logDeleteTIs(deletedTIs);
     })
     .catch(err => console.log(err.message));
 }
