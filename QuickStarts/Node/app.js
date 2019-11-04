@@ -62,7 +62,7 @@ function RunTIs() {
     .then(token => {
       print.logToken(token);
       GraphSecurity.storeToken(token);
-      return GraphSecurity.createTIs();
+      return GraphSecurity.createTIs(data);
     })
     .then(createdTIs => { 
       print.logCreateTIs(createdTIs);
