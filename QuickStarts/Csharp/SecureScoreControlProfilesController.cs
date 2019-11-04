@@ -51,6 +51,15 @@ namespace MSGraphSecurity
 
             string url = string.Format("https://graph.microsoft.com/beta/security/secureScoreControlProfiles" + id);
 
+            //vendorInformation is required by the API for patching secure score control profiles,
+            //so first we need to make a call to GET the profile.
+            var oldProfile = await Get(id);
+            //convert oldProfile to Json object
+            var profileJson = JsonConvert.DeserializeObject<SecureScoreControlProfile>(oldProfile);
+
+            //then add vendorInformation to the PATCH body
+            profile.VendorInformation = profileJson.VendorInformation;
+
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Patch, url);
 
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);

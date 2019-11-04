@@ -102,15 +102,11 @@ namespace MSGraphSecurity
             //    {
             //        Id = "<id-value1>",
             //        AdditionalInformation = "my test",
-            //        TargetProduct = "Azure Sentinel",
-            //        ExpirationDateTime = DateTimeOffset.Parse("2019-12-31T21:44:03.1668987Z")
             //    },
             //    new TiIndicator
             //    {
             //        Id = "<id-value2>",
             //        AdditionalInformation = "my test again",
-            //        TargetProduct = "Azure Sentinel",
-            //        ExpirationDateTime = DateTimeOffset.Parse("2019-12-31T21:44:03.1668987Z")
             //    }
             //};
             //var updateTIs = await tiIndicatorsController.UpdateMultipleTIIndicators(values);

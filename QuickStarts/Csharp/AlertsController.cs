@@ -1,7 +1,5 @@
 ﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -76,11 +74,20 @@ namespace MSGraphSecurity
         }
 
         //create PATCH request to update a single security alert by Id
-        public async Task<string> PatchAlert(string id, object alert)
+        public async Task<string> PatchAlert(string id, Alert alert)
         {
             var token = await GetToken();
 
             string url = string.Format("https://graph.microsoft.com/beta/security/alerts/" + id);
+
+            //vendorInformation is required by the API for patching alerts,
+            //so first we need to make a call to GET the alert.
+            var oldAlert = await GetAlert(id);
+            //convert oldAlert to Json object
+            var alertJson = JsonConvert.DeserializeObject<Alert>(oldAlert);
+
+            //then add vendorInformation to the PATCH body
+            alert.VendorInformation = alertJson.VendorInformation;
 
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Patch, url);
 

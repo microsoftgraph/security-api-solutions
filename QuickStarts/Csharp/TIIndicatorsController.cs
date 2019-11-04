@@ -114,6 +114,16 @@ namespace MSGraphSecurity
 
             string url = string.Format("https://graph.microsoft.com/beta/security/tiIndicators/" + id);
 
+            //targetProduct & expirationDateTime are required by the API for patching TIs,
+            //so first we need to make a call to GET the TI.
+            var oldTI = await GetTIIndicator(id);
+            //convert oldTI to Json object
+            var tiJson = JsonConvert.DeserializeObject<TiIndicator>(oldTI);
+
+            //then add vendorInformation to the PATCH body
+            tIIndicator.TargetProduct = tiJson.TargetProduct;
+            tIIndicator.ExpirationDateTime = tiJson.ExpirationDateTime;
+
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Patch, url);
 
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
@@ -210,6 +220,18 @@ namespace MSGraphSecurity
             var token = await GetToken();
 
             string url = string.Format("https://graph.microsoft.com/beta/security/tiIndicators/updateTiIndicators");
+
+            //targetProduct & expirationDateTime are required by the API for PATCHing bulk TIs,
+            //so we first make a call to GET each of the TI in the list
+            //then add the targetProduct & expirationDateTime to PATCH body
+            foreach (var ti in indicators)
+            {
+                var oldTI = await GetTIIndicator(ti.Id);
+                //convert oldTI string to a json object
+                var tiJson = JsonConvert.DeserializeObject<TiIndicator>(oldTI);
+                ti.TargetProduct = tiJson.TargetProduct;
+                ti.ExpirationDateTime = tiJson.ExpirationDateTime;
+            };
 
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
 
