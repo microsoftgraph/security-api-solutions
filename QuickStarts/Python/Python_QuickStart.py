@@ -166,7 +166,8 @@ def create_ti(tibody=None):
     print("########################################################################################")
     print("Calling the Microsoft Graph Security API...")
     print()
-    print('PATCH "%s"' % ti_url)
+
+    print('CREATE "%s"' % ti_url)
     print()
     print("Headers :")
     print(json.dumps(headers, indent=4)) 
@@ -286,7 +287,8 @@ def delete_ti(tiid = None):
     print(json.dumps(headers, indent=4)) 
     print() 
     
-    # Make the PATCH request.
+
+    # Make the DELETE request.
     response = requests.delete(ti_url, headers=delete_headers)
     if response.status_code == 204:
         # if the response returned a 204, print success response
