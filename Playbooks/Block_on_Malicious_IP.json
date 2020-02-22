@@ -1,0 +1,163 @@
+{
+  "definition": {
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+    "actions": {
+      "For_each_new_alert,_do_these_steps:": {
+        "actions": {
+          "Loop_through_networkConnections_of_the_alert": {
+            "actions": {
+              "Check_if_the_alert_contains_destination_IP_address": {
+                "actions": {
+                  "Condition": {
+                    "actions": {
+                      "Create_tiIndicator": {
+                        "inputs": {
+                          "body": {
+                            "action": "block",
+                            "description": "IP address to block",
+                            "expirationDateTime": "2021-03-01T00:00:00Z",
+                            "externalId": "demo external ID",
+                            "networkDestinationIPv4": "@variables('destinationAddress')",
+                            "targetProduct": "Microsoft Defender ATP",
+                            "threatType": "MaliciousUrl",
+                            "tlpLevel": "red"
+                          },
+                          "host": {
+                            "connection": {
+                              "name": "@parameters('$connections')['microsoftgraphsecurity']['connectionId']"
+                            }
+                          },
+                          "method": "post",
+                          "path": "/beta/security/tiIndicators"
+                        },
+                        "runAfter": {},
+                        "type": "ApiConnection"
+                      }
+                    },
+                    "expression": {
+                      "and": [
+                        {
+                          "contains": [
+                            "@body('Send_approval_email')?['SelectedOption']",
+                            "Approve"
+                          ]
+                        }
+                      ]
+                    },
+                    "runAfter": {
+                      "Send_approval_email": [
+                        "Succeeded"
+                      ]
+                    },
+                    "type": "If"
+                  },
+                  "Send_approval_email": {
+                    "inputs": {
+                      "body": {
+                        "Message": {
+                          "Body": "Please approve to block @{variables('destinationAddress')}",
+                          "Importance": "Normal",
+                          "Options": "Approve, Reject",
+                          "Subject": "Approval Request",
+                          "To": "<analyst_email>"
+                        },
+                        "NotificationUrl": "@{listCallbackUrl()}"
+                      },
+                      "host": {
+                        "connection": {
+                          "name": "@parameters('$connections')['office365']['connectionId']"
+                        }
+                      },
+                      "path": "/approvalmail/$subscriptions"
+                    },
+                    "runAfter": {},
+                    "type": "ApiConnectionWebhook"
+                  }
+                },
+                "expression": {
+                  "and": [
+                    {
+                      "greater": [
+                        "@length(variables('destinationAddress'))",
+                        0
+                      ]
+                    }
+                  ]
+                },
+                "runAfter": {
+                  "Set_destinationAddress": [
+                    "Succeeded"
+                  ]
+                },
+                "type": "If"
+              },
+              "Set_destinationAddress": {
+                "inputs": {
+                  "name": "destinationAddress",
+                  "value": "@items('Loop_through_networkConnections_of_the_alert')?['destinationAddress']"
+                },
+                "runAfter": {},
+                "type": "SetVariable"
+              }
+            },
+            "foreach": "@items('For_each_new_alert,_do_these_steps:')?['networkConnections']",
+            "runAfter": {},
+            "type": "Foreach"
+          }
+        },
+        "foreach": "@triggerBody()?['value']",
+        "runAfter": {
+          "Initialize_destinationAddress": [
+            "Succeeded"
+          ]
+        },
+        "type": "Foreach"
+      },
+      "Initialize_destinationAddress": {
+        "inputs": {
+          "variables": [
+            {
+              "name": "destinationAddress",
+              "type": "string",
+              "value": "\"\""
+            }
+          ]
+        },
+        "runAfter": {},
+        "type": "InitializeVariable"
+      }
+    },
+    "contentVersion": "1.0.0.0",
+    "outputs": {},
+    "parameters": {
+      "$connections": {
+        "defaultValue": {},
+        "type": "Object"
+      }
+    },
+    "triggers": {
+      "On_all_new_alerts": {
+        "inputs": {
+          "host": {
+            "connection": {
+              "name": "@parameters('$connections')['microsoftgraphsecurity']['connectionId']"
+            }
+          },
+          "method": "get",
+          "path": "/trigger/v1.0/security/alerts"
+        },
+        "recurrence": {
+          "frequency": "Minute",
+          "interval": 3
+        },
+        "type": "ApiConnection"
+      }
+    }
+  },
+  "parameters": {
+    "$connections": {
+      "value": {
+      }
+    }
+  }
+}
