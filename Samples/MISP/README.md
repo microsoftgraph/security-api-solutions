@@ -41,7 +41,7 @@ Follow these steps to register a new application:
 1. Under **Application Permissions**, add the permissions/scopes required for the sample. This sample requires **ThreatIndicators.ReadWrite.OwnedBy**.
     >Note: See the [Microsoft Graph permissions reference](https://developer.microsoft.com/en-us/graph/docs/concepts/permissions_reference) for more information about Graph's permission model.
     
-1. Modify the RequestManager.py file to comment out line 121-124. (This allows the script to run without failing due to line 123 being divided by `avg_speed` incase it starts as `0`.
+1. Modify the RequestManager.py file to comment out line 140-143. (This allows the script to run without failing due to line 123 being divided by `avg_speed` incase it starts as `0`.
 
 1. Modify the script.py to add in `config.misp_verifycert` at line 13. Ensure it looks like below.
 ```
