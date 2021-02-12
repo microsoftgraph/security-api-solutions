@@ -43,7 +43,7 @@ Follow these steps to register a new application:
     
 1. Modify the RequestManager.py file to comment out line 121-124. (This allows the script to run without failing due to line 123 being divided by `avg_speed` incase it starts as `0`.
 
-1. Modify the script.py to add in `config.misp_verifycert` at line 13. Ensure it looks like below.
+1. Modify the script.py to add in `config.misp_verifycert` at line 14. Ensure it looks like below.
 ```
  misp = PyMISP(config.misp_domain, config.misp_key, config.misp_verifycert)
 ```
