@@ -15,7 +15,7 @@ extensions:
 ---
 # Microsoft Graph Security API 
 
-Welcome to the Microsoft Graph Security repository! This repository is a starting point for all Graph Security application developers to share content and sample code in different languages for Graph Security application integration scenarios. You can also file [issues](https://github.com/microsoftgraph/security-api-solutions/issues) faced during integration with the [Microsoft Graph Security API](https://www.microsoft.com/en-us/security/intelligence-security-api). 
+Welcome to the Microsoft Graph Security repository! This repository is a starting point for all Graph Security application developers to share content and sample code in different languages for Microsoft Graph security application integration scenarios. You can also file [issues](https://github.com/microsoftgraph/security-api-solutions/issues) faced during integration with the [Microsoft Graph Security API](https://www.microsoft.com/en-us/security/intelligence-security-api). 
 
 # In this repository
 * [Microsoft Graph Security Samples](https://github.com/microsoftgraph/security-api-solutions/blob/master/sample-repos.md)
